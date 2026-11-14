@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap');
+
+:root {
+  font-family: 'DM Sans', 'Segoe UI', sans-serif;
+  color: #242637;
+  background: #f6f7ff;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  --ink: #20233a;
+  --muted: #747b91;
+  --accent: #6558f5;
+  --accent-light: #eeedff;
+  --border: #e5e7f2;
+  --accent-cyan: #50d7e8;
+  --surface: rgba(255, 255, 255, 0.84);
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  background:
+    radial-gradient(ellipse at 10% 4%, rgba(119, 108, 255, 0.13), transparent 32rem),
+    radial-gradient(ellipse at 92% 18%, rgba(80, 215, 232, 0.1), transparent 30rem),
+    linear-gradient(180deg, #f8f8ff 0%, #f6f7ff 58%, #fbfbff 100%);
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+::selection {
+  background: rgba(101, 88, 245, 0.2);
+  color: var(--ink);
+}
+
+button,
+a,
+input,
+textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

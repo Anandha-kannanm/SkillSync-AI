@@ -1,0 +1,640 @@
+.app-shell {
+  position: relative;
+  isolation: isolate;
+}
+
+.topbar {
+  position: sticky;
+  z-index: 20;
+  top: 0;
+  border-color: rgba(222, 224, 240, 0.76);
+  background: rgba(248, 248, 255, 0.76);
+  backdrop-filter: blur(18px);
+}
+
+.brand-mark,
+.platform-brand .brand-mark {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(145deg, #796dff, #5547e6 70%, #44cfe3);
+  box-shadow: 0 7px 17px rgba(90, 77, 228, 0.24);
+}
+
+.brand-mark::after {
+  position: absolute;
+  inset: -60% 48% -60% -30%;
+  transform: rotate(30deg);
+  background: rgba(255, 255, 255, 0.28);
+  content: '';
+}
+
+.home-signup {
+  border: 1px solid rgba(255, 255, 255, 0.32);
+  background: linear-gradient(130deg, #7568ff, #5848e9 72%, #7269f6);
+  box-shadow: 0 8px 20px rgba(91, 77, 227, 0.2);
+  transition: transform 220ms ease, box-shadow 220ms ease;
+}
+
+.home-signup:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 25px rgba(91, 77, 227, 0.28);
+}
+
+.hero {
+  position: relative;
+  z-index: 0;
+  isolation: isolate;
+  margin-top: 55px;
+  padding: 28px 0 34px;
+  animation: spatial-rise 700ms both;
+}
+
+.hero::before,
+.hero::after {
+  position: absolute;
+  z-index: -1;
+  display: block;
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  border-radius: 50%;
+  content: '';
+  pointer-events: none;
+  transform-style: preserve-3d;
+}
+
+.hero::before {
+  top: 8%;
+  left: -9%;
+  width: 118px;
+  height: 118px;
+  background:
+    radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.98), transparent 19%),
+    radial-gradient(circle at 40% 35%, #b4adff, #7268f7 55%, #534ae2 78%);
+  box-shadow: inset -14px -16px 27px rgba(58, 46, 186, 0.23), 0 24px 54px rgba(91, 77, 227, 0.19);
+  animation: spatial-float 7s ease-in-out infinite;
+}
+
+.hero::after {
+  right: -7%;
+  bottom: 3%;
+  width: 70px;
+  height: 70px;
+  border-radius: 22px;
+  background:
+    radial-gradient(circle at 30% 23%, rgba(255, 255, 255, 0.94), transparent 20%),
+    linear-gradient(145deg, #a4eff0, #52d2df 52%, #5b85f7);
+  box-shadow: inset -9px -10px 20px rgba(35, 122, 184, 0.17), 0 17px 35px rgba(68, 174, 218, 0.19);
+  transform: rotate(17deg) translateZ(30px);
+  animation: spatial-float 6s ease-in-out -2s infinite;
+}
+
+.hero h1 span {
+  background: linear-gradient(100deg, #6658ed 10%, #8376ff 55%, #3cbccc 100%);
+  background-clip: text;
+  color: transparent;
+  -webkit-background-clip: text;
+}
+
+.eyebrow {
+  color: #6b5cf1;
+}
+
+.path-count,
+.api-status,
+.roadmap-search,
+.filter-chip {
+  border-color: rgba(225, 226, 241, 0.9);
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(10px);
+}
+
+.roadmap-section {
+  animation: spatial-rise 750ms 90ms both;
+}
+
+.roadmap-card {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-color: rgba(224, 226, 240, 0.9);
+  background:
+    linear-gradient(150deg, rgba(255, 255, 255, 0.98), rgba(250, 250, 255, 0.87)) padding-box,
+    linear-gradient(140deg, rgba(255, 255, 255, 0.92), rgba(153, 145, 255, 0.2), rgba(94, 212, 229, 0.18)) border-box;
+  box-shadow: 0 7px 24px rgba(55, 59, 105, 0.035);
+  transform-style: preserve-3d;
+  animation: spatial-rise 480ms both;
+}
+
+.roadmap-card::before {
+  position: absolute;
+  z-index: -1;
+  top: -54px;
+  right: -58px;
+  width: 138px;
+  height: 138px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(122, 111, 255, 0.1), transparent 70%);
+  content: '';
+  transition: transform 300ms ease;
+}
+
+.roadmap-card:hover {
+  transform: perspective(900px) translateY(-6px) rotateX(1.4deg) rotateY(-1.3deg);
+  border-color: rgba(132, 122, 247, 0.46);
+  box-shadow: 0 20px 38px rgba(64, 62, 132, 0.12), 0 4px 12px rgba(79, 181, 203, 0.08);
+}
+
+.roadmap-card:hover::before {
+  transform: scale(1.45);
+}
+
+.roadmap-icon {
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.8), 0 5px 12px rgba(77, 84, 150, 0.08);
+  transform: translateZ(16px);
+}
+
+.roadmap-title,
+.roadmap-description,
+.card-topline,
+.roadmap-meta,
+.card-progress {
+  transform: translateZ(8px);
+}
+
+.roadmap-detail {
+  border-color: rgba(222, 224, 240, 0.86);
+  background: rgba(255, 255, 255, 0.84);
+  box-shadow: 0 18px 48px rgba(56, 59, 105, 0.07);
+  backdrop-filter: blur(14px);
+}
+
+.platform-shell {
+  position: relative;
+}
+
+.platform-header {
+  border-color: rgba(222, 224, 240, 0.78);
+  background: rgba(248, 248, 255, 0.78);
+  box-shadow: 0 6px 24px rgba(52, 56, 108, 0.035);
+}
+
+.platform-nav a {
+  transition: color 180ms ease, transform 180ms ease;
+}
+
+.platform-nav a:hover {
+  transform: translateY(-1px);
+}
+
+.language-selector {
+  display: inline-flex;
+  min-height: 34px;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 5px;
+  padding: 0 8px;
+  border: 1px solid rgba(222, 224, 240, 0.9);
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.82);
+  color: #6558f5;
+  box-shadow: 0 4px 12px rgba(52, 56, 108, 0.04);
+}
+
+.language-selector select {
+  max-width: 92px;
+  padding: 4px 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #45445f;
+  cursor: pointer;
+  font: inherit;
+  font-size: 11px;
+  font-weight: 650;
+}
+
+.language-selector:focus-within {
+  border-color: rgba(101, 88, 245, 0.65);
+  box-shadow: 0 0 0 3px rgba(101, 88, 245, 0.1);
+}
+
+.auth-shell {
+  position: relative;
+}
+
+.auth-language {
+  position: absolute;
+  z-index: 3;
+  top: 21px;
+  right: 0;
+}
+
+.auth-card {
+  border-color: rgba(222, 224, 240, 0.84);
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: 0 28px 80px rgba(48, 47, 105, 0.12), 0 4px 18px rgba(74, 164, 193, 0.06);
+  backdrop-filter: blur(18px);
+  animation: spatial-rise 600ms both;
+}
+
+.auth-illustration {
+  perspective: 900px;
+  background:
+    radial-gradient(circle at 50% 47%, rgba(255, 255, 255, 0.97) 0 12%, transparent 12.5%),
+    radial-gradient(ellipse at 50% 47%, rgba(177, 172, 255, 0.44), transparent 49%),
+    linear-gradient(145deg, #524bd8, #766cf0 52%, #44bfd2);
+}
+
+.auth-illustration::before {
+  animation: orbit-pulse 8s ease-in-out infinite;
+}
+
+.auth-illustration::after {
+  border-color: rgba(255, 255, 255, 0.14);
+  animation: orbit-pulse 11s ease-in-out -3s infinite reverse;
+}
+
+.auth-orbit.orbit-one {
+  animation: orbit-spin 24s linear infinite;
+}
+
+.auth-orbit.orbit-two {
+  animation: orbit-spin 19s linear infinite reverse;
+}
+
+.auth-orbit-core {
+  transform: translateZ(40px) rotateX(-8deg) rotateY(10deg);
+  box-shadow: 0 20px 42px rgba(43, 38, 157, 0.26), inset 0 1px rgba(255, 255, 255, 0.95);
+  animation: core-hover 5s ease-in-out infinite;
+}
+
+.auth-floating-note {
+  box-shadow: 0 12px 26px rgba(43, 38, 157, 0.2);
+  animation: note-hover 4.5s ease-in-out infinite;
+}
+
+.note-two {
+  animation-delay: -1.5s;
+}
+
+.note-three {
+  animation-delay: -3s;
+}
+
+.auth-form input {
+  border-color: #e1e3f0;
+  border-radius: 10px;
+  background: rgba(252, 252, 255, 0.84);
+  transition: border-color 180ms ease, box-shadow 180ms ease, background 180ms ease;
+}
+
+.auth-form input:focus {
+  background: white;
+  box-shadow: 0 0 0 4px rgba(101, 88, 245, 0.11), 0 6px 18px rgba(101, 88, 245, 0.08);
+}
+
+.platform-primary,
+.tutor-form button,
+.certificate-print {
+  background: linear-gradient(125deg, #7568ff, #5848e9 72%, #6866f2);
+  box-shadow: 0 7px 17px rgba(91, 77, 227, 0.16);
+  transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+}
+
+.platform-primary:hover:not(:disabled),
+.tutor-form button:hover:not(:disabled),
+.certificate-print:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(125deg, #6558f5, #4c40d5 72%, #5a55e6);
+  box-shadow: 0 12px 23px rgba(91, 77, 227, 0.26);
+}
+
+.course-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-color: rgba(222, 224, 240, 0.85);
+  background:
+    radial-gradient(ellipse at 92% 12%, rgba(91, 83, 230, 0.13), transparent 22rem),
+    linear-gradient(110deg, rgba(255, 255, 255, 0.96), rgba(247, 247, 255, 0.88));
+  box-shadow: 0 14px 36px rgba(52, 56, 108, 0.065);
+  animation: spatial-rise 550ms both;
+}
+
+.course-hero::after {
+  position: absolute;
+  z-index: -1;
+  top: -76px;
+  right: 12%;
+  width: 178px;
+  height: 178px;
+  border: 1px solid rgba(113, 104, 243, 0.15);
+  border-radius: 50%;
+  box-shadow: 0 0 0 18px rgba(113, 104, 243, 0.035), 0 0 0 38px rgba(74, 199, 215, 0.035);
+  content: '';
+  animation: orbit-pulse 8s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.course-hero-main,
+.course-progress-summary {
+  position: relative;
+  z-index: 1;
+}
+
+.course-hero-icon {
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.9), 0 9px 22px rgba(88, 76, 222, 0.15);
+  transform: perspective(300px) rotateY(-8deg) rotateX(4deg);
+}
+
+.course-progress-number {
+  text-shadow: 0 5px 20px rgba(101, 88, 245, 0.2);
+}
+
+.course-sidebar,
+.ai-tutor-panel,
+.assessment-panel,
+.certificate-panel,
+.dashboard-course-card {
+  border-color: rgba(222, 224, 240, 0.86);
+  background: rgba(255, 255, 255, 0.83);
+  box-shadow: 0 12px 32px rgba(52, 56, 108, 0.055);
+  backdrop-filter: blur(12px);
+}
+
+.course-sidebar-item {
+  transition: background 180ms ease, transform 180ms ease, color 180ms ease;
+}
+
+.course-sidebar-item:hover:not(:disabled) {
+  transform: translateX(2px);
+  background: rgba(238, 237, 255, 0.72);
+}
+
+.course-sidebar-item.active {
+  background: linear-gradient(100deg, rgba(238, 237, 255, 0.98), rgba(240, 243, 255, 0.82));
+  box-shadow: inset 3px 0 #7063f4;
+}
+
+.lesson-view {
+  border-color: rgba(222, 224, 240, 0.88);
+  box-shadow: 0 16px 40px rgba(52, 56, 108, 0.07);
+  animation: spatial-rise 480ms both;
+}
+
+.course-main .lesson-header {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 94% 18%, rgba(80, 215, 232, 0.13), transparent 12rem),
+    linear-gradient(115deg, rgba(240, 239, 255, 0.92), rgba(255, 255, 255, 0.97) 72%);
+}
+
+.course-main .lesson-header::after {
+  position: absolute;
+  top: -55px;
+  right: 9%;
+  width: 126px;
+  height: 126px;
+  border: 1px solid rgba(107, 92, 241, 0.11);
+  border-radius: 50%;
+  box-shadow: 0 0 0 14px rgba(107, 92, 241, 0.035);
+  content: '';
+  pointer-events: none;
+}
+
+.course-main .lesson-header > * {
+  position: relative;
+  z-index: 1;
+}
+
+.course-main .lesson-card {
+  border-color: rgba(229, 230, 242, 0.88);
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 5px 18px rgba(52, 56, 108, 0.025);
+  transition: border-color 200ms ease, box-shadow 200ms ease, transform 200ms ease;
+}
+
+.course-main .lesson-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(138, 128, 247, 0.35);
+  box-shadow: 0 11px 26px rgba(52, 56, 108, 0.055);
+}
+
+.assessment-question {
+  border-color: rgba(228, 229, 241, 0.88);
+  background: rgba(255, 255, 255, 0.72);
+  transition: border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.assessment-question:focus-within {
+  border-color: rgba(115, 103, 244, 0.42);
+  box-shadow: 0 0 0 3px rgba(101, 88, 245, 0.07);
+}
+
+.assessment-result {
+  box-shadow: 0 9px 24px rgba(89, 80, 198, 0.07);
+  animation: spatial-rise 400ms both;
+}
+
+.score-orb {
+  background: radial-gradient(circle at 36% 30%, white, #f5f4ff 66%);
+  box-shadow: 0 8px 20px rgba(84, 73, 198, 0.12);
+  transform: perspective(180px) rotateY(-10deg) rotateX(7deg);
+}
+
+.dashboard-welcome {
+  isolation: isolate;
+  box-shadow: 0 22px 48px rgba(65, 56, 190, 0.24);
+}
+
+.dashboard-welcome::after {
+  position: absolute;
+  z-index: -1;
+  top: -92px;
+  right: 9%;
+  width: 235px;
+  height: 235px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 50%;
+  box-shadow: 0 0 0 20px rgba(255, 255, 255, 0.07), 0 0 0 43px rgba(255, 255, 255, 0.045);
+  content: '';
+  animation: orbit-pulse 8s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.dashboard-welcome > * {
+  position: relative;
+  z-index: 1;
+}
+
+.dashboard-course-card {
+  transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+}
+
+.dashboard-course-card:hover {
+  transform: perspective(850px) translateY(-5px) rotateX(1deg);
+  border-color: rgba(132, 122, 247, 0.45);
+  box-shadow: 0 20px 36px rgba(64, 62, 132, 0.11);
+}
+
+.certificate-document {
+  border-color: rgba(101, 88, 245, 0.45);
+  outline-color: rgba(238, 237, 255, 0.8);
+  box-shadow: 0 24px 60px rgba(58, 52, 145, 0.12);
+  background:
+    radial-gradient(circle at 100% 0, rgba(80, 215, 232, 0.08), transparent 13rem),
+    radial-gradient(circle at 0 100%, rgba(101, 88, 245, 0.07), transparent 14rem),
+    white;
+}
+
+@keyframes spatial-rise {
+  from {
+    opacity: 0;
+    translate: 0 14px;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+@keyframes spatial-float {
+  0%, 100% {
+    translate: 0 0;
+    rotate: 0deg;
+  }
+  50% {
+    translate: 0 -12px;
+    rotate: 5deg;
+  }
+}
+
+@keyframes orbit-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes orbit-pulse {
+  0%, 100% {
+    opacity: 0.72;
+    scale: 1;
+  }
+  50% {
+    opacity: 1;
+    scale: 1.035;
+  }
+}
+
+@keyframes core-hover {
+  0%, 100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -9px;
+  }
+}
+
+@keyframes note-hover {
+  0%, 100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -7px;
+  }
+}
+
+@media (max-width: 760px) {
+  .topbar {
+    gap: 8px;
+  }
+
+  .top-nav {
+    gap: 12px;
+    margin-right: 10px;
+  }
+
+  .topbar > .language-selector {
+    min-height: 31px;
+    padding: 0 5px;
+  }
+
+  .topbar > .language-selector select {
+    max-width: 70px;
+    font-size: 10px;
+  }
+
+  .hero::before {
+    top: -3%;
+    left: -3%;
+    width: 76px;
+    height: 76px;
+    opacity: 0.82;
+  }
+
+  .hero::after {
+    right: -2%;
+    bottom: 0;
+    width: 51px;
+    height: 51px;
+    border-radius: 16px;
+  }
+}
+
+@media (max-width: 640px) {
+  .platform-header > .language-selector {
+    min-height: 29px;
+    gap: 2px;
+    padding: 0 4px;
+  }
+
+  .platform-header > .language-selector > span:not(.sr-only) {
+    display: none;
+  }
+
+  .platform-header > .language-selector select {
+    max-width: 68px;
+    font-size: 9px;
+  }
+
+  .top-nav {
+    gap: 9px;
+    margin-right: 4px;
+  }
+
+  .top-nav a {
+    font-size: 10px;
+  }
+
+  .course-hero::after {
+    right: -5%;
+  }
+
+  .dashboard-welcome::after {
+    right: -24%;
+  }
+
+  .course-main .lesson-card:hover {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .roadmap-card:hover,
+  .dashboard-course-card:hover,
+  .course-main .lesson-card:hover {
+    transform: none;
+  }
+}
