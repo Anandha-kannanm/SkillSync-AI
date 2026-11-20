@@ -11,6 +11,11 @@ SkillSync AI is a career-learning platform that helps learners explore IT career
 - Earn a course certificate after completing all lessons and achieving 100% on the assessment.
 - Switch the interface between English and Tamil.
 - Ask the AI tutor questions about lessons (requires a Gemini API key).
+- Ask the authenticated AI career assistant for English or Tamil guidance (requires a Gemini API key).
+- Browse an India-wide company-career directory and search admin-verified job postings.
+- Save jobs, track applications manually, set matching preferences, and receive non-repeating match alerts.
+- Use the responsive landing page to navigate existing learning features and identify planned modules.
+- Password recovery is not configured; the forgot-password page explains this instead of claiming to send an email.
 
 ## Technology
 
@@ -26,22 +31,33 @@ SkillSync AI is a career-learning platform that helps learners explore IT career
 
 ## Run locally on Windows
 
-Run the backend and frontend in two separate PowerShell terminals. Run these commands from the project root (the folder containing `backend` and `frontend`).
+Run the backend and frontend in two separate PowerShell terminals. First, make sure each terminal is in the project root: the `SkillSync-AI` folder containing both `backend` and `frontend`. If you opened PowerShell in the parent `SkillSync AI` folder, enter the project folder first:
+
+```powershell
+Set-Location "C:\Users\USER\Documents\SkillSync AI\SkillSync-AI"
+Test-Path .\backend\main.py
+```
+
+`Test-Path` should print `True`. Do not create `backend\venv` from the parent folder; that would create a different environment outside this project.
 
 ### 1. Set up and start the backend
 
-Create a Python virtual environment and install the backend packages:
+Create the virtual environment and install the backend packages once, from the project root:
 
 ```powershell
 python -m venv backend\venv
 .\backend\venv\Scripts\python.exe -m pip install fastapi uvicorn python-dotenv google-genai
 ```
 
+If `backend\venv` already exists and its `python.exe` works, skip the environment creation command and install packages only if needed.
+
 Create a backend environment file:
 
 ```powershell
 Copy-Item backend\.env.example backend\.env
 ```
+
+If `backend\.env` already exists, do not overwrite it; open it and edit the existing file instead.
 
 Open `backend\.env` and add your Gemini API key to `GEMINI_API_KEY` if you want AI features. The key is optional; the roadmaps, lessons, and assessments can still be used without it.
 
@@ -51,19 +67,37 @@ Start the API server from the project root:
 .\backend\venv\Scripts\python.exe -m uvicorn backend.main:app --reload
 ```
 
-The API runs at `http://127.0.0.1:8000`. You can check its health at `http://127.0.0.1:8000/api/health` and view the interactive API documentation at `http://127.0.0.1:8000/api/docs`.
+Keep this terminal open while using the website. Wait for `Application startup complete` and leave Uvicorn running; if the terminal shows `Shutting down`, the backend has stopped. The API runs at `http://127.0.0.1:8000`. You can check its health at `http://127.0.0.1:8000/api/health` and view the interactive API documentation at `http://127.0.0.1:8000/api/docs`.
+
+If port 8000 is unavailable or Windows reports `WinError 10013`, start the backend on port 8001 instead:
+
+```powershell
+.\backend\venv\Scripts\python.exe -m uvicorn backend.main:app --reload --host 127.0.0.1 --port 8001
+```
 
 ### 2. Install and start the frontend
 
-Open a second PowerShell terminal:
+Open a second PowerShell terminal, enter the project root, and then move into `frontend`:
 
 ```powershell
-Set-Location frontend
+Set-Location "C:\Users\USER\Documents\SkillSync AI\SkillSync-AI\frontend"
 npm install
+```
+
+For the default backend port 8000, start Vite in this terminal:
+
+```powershell
 npm run dev
 ```
 
-Open the local URL printed by Vite, usually `http://localhost:5173`. Keep both servers running while using the app. Vite forwards `/api` requests to the backend at `http://127.0.0.1:8000`.
+If you started the backend on port 8001, set the Vite proxy target in this same frontend terminal before starting Vite instead:
+
+```powershell
+$env:API_PROXY_TARGET = "http://127.0.0.1:8001"
+npm run dev
+```
+
+For port 8000, leave `API_PROXY_TARGET` unset; that is the default. Open the local URL printed by Vite, usually `http://localhost:5173`. Keep both backend and frontend terminals open while using the app. Vite forwards `/api` requests to the backend. If you change the backend port or proxy target, stop and restart Vite so it picks up the new setting.
 
 ## Environment configuration
 
@@ -76,6 +110,7 @@ The backend reads these optional settings from `backend\.env`:
 | `APP_ENV` | Set to `production` when deploying behind HTTPS. | `development` |
 | `SKILLSYNC_DB_PATH` | SQLite database file location. | `backend/skillsync.db` |
 | `FRONTEND_ORIGINS` | Comma-separated list of allowed frontend origins. | Local development origins |
+| `JOB_ADMIN_EMAILS` | Comma-separated account emails allowed to manage and verify company/job listings. | Empty (admin routes disabled) |
 
 The frontend's Vite development proxy can be pointed to another backend URL with `API_PROXY_TARGET`.
 
@@ -105,12 +140,14 @@ Set-Location backend
 SkillSync-AI/
 ├── backend/
 │   ├── main.py                 # FastAPI API, authentication, and learning features
+│   ├── job_platform.py         # Company directory, verified jobs, matching, and admin APIs
 │   ├── test_main.py            # Backend tests
 │   ├── .env.example            # Example backend configuration
 │   └── skillsync.db            # Local SQLite database (created automatically)
 └── frontend/
     ├── src/
     │   ├── App.jsx             # Home page and skill analysis interface
+    │       ├── JobsPlatform.jsx    # Company search, verified jobs, profile, and admin UI
     │   ├── CoursePlatform.jsx  # Sign-in, dashboard, and course pages
     │   ├── LearningLesson.jsx  # Lesson experience
     │   ├── roadmaps.js         # Career roadmap data
@@ -222,6 +259,10 @@ The local database is normally `backend/skillsync.db`. The backend creates its t
 | Load and submit the final assessment | `frontend/src/CoursePlatform.jsx` | `GET` and `POST /api/courses/{course_id}/assessment` |
 | Ask a lesson question | `frontend/src/CoursePlatform.jsx` | `POST /api/ai/tutor` |
 | Check certificate eligibility and load details | `frontend/src/CoursePlatform.jsx` | `GET /api/courses/{course_id}/certificate` |
+| Search companies and verified job listings | `frontend/src/JobsPlatform.jsx` | `GET /api/jobs/companies`, `GET /api/jobs` |
+| Save a profile, get job recommendations, and manage alerts | `frontend/src/JobsPlatform.jsx` | `/api/jobs/profile`, `/api/jobs/recommendations`, `/api/jobs/alerts` |
+| Save jobs and track applications | `frontend/src/JobsPlatform.jsx` | `/api/jobs/saved`, `/api/jobs/{job_id}/save`, `/api/jobs/{job_id}/application` |
+| Create, edit, and verify listings | `frontend/src/JobsPlatform.jsx` | `/api/admin/jobs/*` (requires `JOB_ADMIN_EMAILS`) |
 
 Interactive API documentation is available at `http://127.0.0.1:8000/api/docs` while the backend is running.
 
@@ -243,7 +284,12 @@ The interface defaults to English and supports Tamil. The learner can switch lan
 
 | Symptom | Checks |
 | --- | --- |
-| The home page says the API is offline | Confirm the backend is running on port `8000`; open `http://127.0.0.1:8000/api/health`; check the Vite proxy target if using another port. |
+| `.\backend\venv\Scripts\python.exe` is not recognized | PowerShell is probably in the wrong folder. Change to the `SkillSync-AI` project root (not its parent) and confirm `Test-Path .\backend\venv\Scripts\python.exe` returns `True`. |
+| The home page says the API is offline or Vite logs `ECONNREFUSED` | Start the backend in a separate terminal and keep it open. Check `http://127.0.0.1:8000/api/health` (or port `8001` if selected). Make sure `API_PROXY_TARGET` in the frontend terminal matches the backend port, then restart Vite. |
+| Uvicorn reports `WinError 10013` on port 8000 | Try the documented port 8001 command and set `API_PROXY_TARGET` to `http://127.0.0.1:8001` before starting Vite. |
+| The backend prints `Shutting down` | The backend process has exited, often because the terminal was closed or interrupted. Start Uvicorn again and keep that terminal open. |
+| `Set-Location frontend` or npm reports that `package.json` cannot be found | The terminal is not at the project root. Use the full `frontend` path shown in the setup instructions; run npm commands only from `frontend`. |
+| Python reports it cannot copy `venvlauncher.exe` | Check that you are in the `SkillSync-AI` project root and that `backend\venv\Scripts\python.exe` exists. If it already exists and works, do not recreate the environment; proceed with package installation and server startup. |
 | The frontend cannot start | Confirm a supported Node.js version is installed, run `npm install` inside `frontend`, then run `npm run dev`. |
 | AI analysis or tutor is unavailable | Set a valid `GEMINI_API_KEY` in `backend\.env`, restart the backend, and check its terminal output. Core roadmap and course features do not require Gemini. |
 | A course page redirects to sign-in | Course progress and lessons require an account. Sign in, then reopen the course. |

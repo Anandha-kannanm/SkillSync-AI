@@ -4,6 +4,8 @@ import LearningLesson from './LearningLesson.jsx'
 import { getLessonContent } from './learningResources.js'
 import { roadmaps } from './roadmaps.js'
 import { LanguageSelector, translate, useLanguage } from './i18n.js'
+import { NeuralIcon } from './NeuralExperience.jsx'
+import ThemeSwitcher from './ThemeSwitcher.jsx'
 
 async function apiRequest(url, options = {}) {
   const response = await fetch(url, {
@@ -28,6 +30,9 @@ function AuthPage({ mode }) {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
+  const [rememberMe, setRememberMe] = useState(true)
   const [error, setError] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const isSignup = mode === 'signup'
@@ -36,13 +41,20 @@ function AuthPage({ mode }) {
   async function submit(event) {
     event.preventDefault()
     setError('')
+    if (isSignup && password !== confirmPassword) {
+      setError(t('Passwords do not match.'))
+      return
+    }
     setIsSubmitting(true)
     try {
       await apiRequest(`/api/auth/${isSignup ? 'signup' : 'login'}`, {
         method: 'POST',
-        body: JSON.stringify(isSignup ? { name, email, password } : { email, password }),
+        body: JSON.stringify(isSignup
+          ? { name, email, password }
+          : { email, password, remember_me: rememberMe }),
       })
-      window.location.replace(nextPath)
+      window.history.replaceState({}, '', nextPath)
+      window.dispatchEvent(new PopStateEvent('popstate'))
     } catch (requestError) {
       setError(requestError.message)
     } finally {
@@ -56,12 +68,20 @@ function AuthPage({ mode }) {
         <span className="brand-mark">S</span>
         <span>SkillSync <strong>AI</strong></span>
       </a>
-      <LanguageSelector className="auth-language" />
+      <div className="auth-tools">
+        <LanguageSelector />
+        <ThemeSwitcher />
+      </div>
       <section className="auth-card">
         <div className="auth-illustration" aria-hidden="true">
           <span className="auth-orbit orbit-one" />
           <span className="auth-orbit orbit-two" />
-          <span className="auth-orbit-core">S</span>
+          <svg className="neural-auth-network" viewBox="0 0 300 260">
+            <path d="M22 182 74 105 130 142 184 54 262 100M74 105 130 35 184 54 236 210 130 142 66 225M130 142 184 54M130 142 236 210" />
+            <circle cx="74" cy="105" r="4" /><circle cx="130" cy="142" r="5" />
+            <circle cx="184" cy="54" r="4" /><circle cx="236" cy="210" r="4" />
+          </svg>
+          <NeuralIcon className="auth-neural-icon" />
           <span className="auth-floating-note note-one">{t('Learn')}</span>
           <span className="auth-floating-note note-two">{t('Build')}</span>
           <span className="auth-floating-note note-three">{t('Grow')}</span>
@@ -85,17 +105,50 @@ function AuthPage({ mode }) {
             </label>
             <label>
               {t('Password')}
-              <input
-                autoComplete={isSignup ? 'new-password' : 'current-password'}
-                minLength={isSignup ? 10 : 1}
-                maxLength={128}
-                required
-                type="password"
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
-              />
+              <span className="auth-password-field">
+                <input
+                  autoComplete={isSignup ? 'new-password' : 'current-password'}
+                  minLength={isSignup ? 10 : 1}
+                  maxLength={128}
+                  required
+                  type={showPassword ? 'text' : 'password'}
+                  value={password}
+                  onChange={(event) => setPassword(event.target.value)}
+                />
+                <button
+                  className="password-visibility"
+                  type="button"
+                  aria-pressed={showPassword}
+                  onClick={() => setShowPassword((visible) => !visible)}
+                >
+                  {t(showPassword ? 'Hide password' : 'Show password')}
+                </button>
+              </span>
               {isSignup && <small>{t('Use at least 10 characters.')}</small>}
             </label>
+            {isSignup && (
+              <label>
+                {t('Confirm password')}
+                <input
+                  autoComplete="new-password"
+                  minLength={10}
+                  maxLength={128}
+                  required
+                  type={showPassword ? 'text' : 'password'}
+                  value={confirmPassword}
+                  onChange={(event) => setConfirmPassword(event.target.value)}
+                />
+              </label>
+            )}
+            {!isSignup && (
+              <div className="auth-options">
+                <label className="remember-option">
+                  <input type="checkbox" checked={rememberMe} onChange={(event) => setRememberMe(event.target.checked)} />
+                  <span>{t('Remember me')}</span>
+                </label>
+                <a href="/forgot-password">{t('Forgot password?')}</a>
+              </div>
+            )}
             {error && <p className="platform-error" role="alert">{error}</p>}
             <button className="platform-primary" type="submit" disabled={isSubmitting}>
               {isSubmitting ? t('Please wait…') : t(isSignup ? 'Create account' : 'Sign in')}
@@ -110,6 +163,29 @@ function AuthPage({ mode }) {
         </div>
       </section>
       <a className="auth-back" href="/">{t('← Back to roadmaps')}</a>
+    </main>
+  )
+}
+
+function ForgotPasswordPage() {
+  const { t } = useLanguage()
+  return (
+    <main className="platform-shell auth-shell">
+      <a className="platform-brand" href="/">
+        <span className="brand-mark">S</span>
+        <span>SkillSync <strong>AI</strong></span>
+      </a>
+      <div className="auth-tools">
+        <LanguageSelector />
+        <ThemeSwitcher />
+      </div>
+      <section className="forgot-card">
+        <span className="forgot-icon" aria-hidden="true">?</span>
+        <p className="platform-eyebrow">{t('ACCOUNT SUPPORT')}</p>
+        <h1>{t('Forgot your password?')}</h1>
+        <p>{t('Password recovery is not configured for this application yet. No reset email has been sent.')}</p>
+        <a className="platform-primary" href="/login">{t('Return to sign in')}</a>
+      </section>
     </main>
   )
 }
@@ -139,8 +215,10 @@ function PlatformHeader({ user, csrfToken }) {
       </a>
       <nav className="platform-nav" aria-label={t('Course navigation')}>
         <a href="/">{t('Explore')}</a>
+        <a href="/jobs">{t('Jobs in India')}</a>
         <a href="/dashboard">{t('My learning')}</a>
       </nav>
+      <ThemeSwitcher />
       <LanguageSelector />
       <div className="platform-user">
         <span className="user-avatar" aria-hidden="true">{user.name.slice(0, 1).toUpperCase()}</span>
@@ -178,57 +256,117 @@ function DashboardPage() {
   const { session } = useAuthenticatedPage()
   const [courses, setCourses] = useState([])
   const [error, setError] = useState('')
+  const [isLoadingCourses, setIsLoadingCourses] = useState(true)
 
   useEffect(() => {
     if (!session) return
+    let active = true
+    setIsLoadingCourses(true)
     apiRequest('/api/dashboard')
-      .then((result) => setCourses(result.courses))
-      .catch((requestError) => setError(requestError.message))
+      .then((result) => {
+        if (active) setCourses(result.courses)
+      })
+      .catch((requestError) => {
+        if (active) setError(requestError.message)
+      })
+      .finally(() => {
+        if (active) setIsLoadingCourses(false)
+      })
+    return () => { active = false }
   }, [session])
 
   if (!session) return <LoadingPage />
 
+  const completedLessons = courses.reduce((total, item) => total + item.completed_lessons.length, 0)
+  const attemptedCourses = courses.filter((item) => item.attempts.length > 0)
+  const bestScore = attemptedCourses.length
+    ? Math.max(...attemptedCourses.map((item) => item.best_score))
+    : null
+
   return (
-    <main className="platform-shell">
+    <main className="platform-shell dashboard-shell">
       <PlatformHeader user={session} csrfToken={session.csrf_token} />
-      <section className="dashboard-welcome">
-        <p className="platform-eyebrow">{t('YOUR PERSONAL LEARNING SPACE')}</p>
-        <h1>{t('Welcome back,')} {session.name.split(' ')[0]}.</h1>
-        <p>{t('Every lesson completed is a step closer to your next opportunity.')}</p>
-        <a className="platform-primary dashboard-explore" href="/">{t('Explore career paths')} <span aria-hidden="true">→</span></a>
-      </section>
-      <section className="dashboard-courses">
-        <div className="platform-section-heading">
-          <div><p className="platform-eyebrow">{t('PICK UP WHERE YOU LEFT OFF')}</p><h2>{t('My learning')}</h2></div>
-          <span>{courses.length} {t(courses.length === 1 ? 'active course' : 'active courses')}</span>
-        </div>
-        {error && <p className="platform-error" role="alert">{t(error)}</p>}
-        {!error && courses.length === 0 ? (
-          <div className="dashboard-empty">
+      <div className="dashboard-layout">
+        <aside className="dashboard-sidebar" aria-label={t('Dashboard navigation')}>
+          <p className="dashboard-sidebar-label">{t('WORKSPACE')}</p>
+          <nav className="dashboard-sidebar-nav">
+            <a className="dashboard-nav-link active" href="#dashboard-overview"><span aria-hidden="true">◈</span>{t('Overview')}</a>
+            <a className="dashboard-nav-link" href="#dashboard-courses"><span aria-hidden="true">▤</span>{t('My learning')}</a>
+            <a className="dashboard-nav-link" href="/jobs"><span aria-hidden="true">⌕</span>{t('Jobs in India')}</a>
+            <a className="dashboard-nav-link" href="/"><span aria-hidden="true">⌕</span>{t('Explore careers')}</a>
+            <a className="dashboard-nav-link" href="/#skill-match"><span aria-hidden="true">✳</span>{t('AI skill match')}</a>
+          </nav>
+          <div className="dashboard-sidebar-note">
             <span aria-hidden="true">✦</span>
-            <h3>{t('Your learning journey starts here')}</h3>
-            <p>{t('Choose a career path and your progress will appear here automatically.')}</p>
-            <a href="/">{t('Browse roadmaps →')}</a>
+            <p>{t('Small steps add up. Continue a lesson to keep building your skills.')}</p>
+            <a href="/">{t('Find a learning path →')}</a>
           </div>
-        ) : (
-          <div className="dashboard-course-grid">
-            {courses.map((item) => {
-              const roadmap = roadmaps.find((course) => course.id === item.course_id)
-              if (!roadmap) return null
-              const percent = Math.round(item.completed_lessons.length / roadmap.steps.length * 100)
-              return (
-                <a className="dashboard-course-card" href={`/courses/${roadmap.id}`} key={roadmap.id}>
-                  <span className={`roadmap-icon ${roadmap.color}`}>{roadmap.icon}</span>
-                  <span className="dashboard-course-title">{translate(roadmap.title, language)}</span>
-                  <span className="dashboard-progress-label">{percent}% {t('lessons complete · best test')} {item.best_score}%</span>
-                  <span className="dashboard-progress-track"><span style={{ width: `${percent}%` }} /></span>
-                  <span className="dashboard-continue">{t(item.certificate_unlocked ? 'View certificate →' : 'Continue learning →')}</span>
-                </a>
-              )
-            })}
-          </div>
-        )}
-      </section>
+        </aside>
+
+        <div className="dashboard-content">
+          <section className="dashboard-welcome" id="dashboard-overview">
+            <p className="platform-eyebrow">{t('YOUR PERSONAL LEARNING SPACE')}</p>
+            <h1>{t('Welcome back,')} {session.name.split(' ')[0]}.</h1>
+            <p>{t('Every lesson completed is a step closer to your next opportunity.')}</p>
+            <a className="platform-primary dashboard-explore" href="/">{t('Explore career paths')} <span aria-hidden="true">→</span></a>
+          </section>
+
+          <section className="dashboard-stats" aria-label={t('Learning statistics')} aria-busy={isLoadingCourses}>
+            <article className="dashboard-stat-card">
+              <span className="dashboard-stat-icon violet" aria-hidden="true">◈</span>
+              <span className="dashboard-stat-label">{t('Learning paths started')}</span>
+              <strong>{isLoadingCourses ? '—' : courses.length}</strong>
+              <span className="dashboard-stat-footnote">{t('Based on your saved course progress')}</span>
+            </article>
+            <article className="dashboard-stat-card">
+              <span className="dashboard-stat-icon cyan" aria-hidden="true">✓</span>
+              <span className="dashboard-stat-label">{t('Lessons completed')}</span>
+              <strong>{isLoadingCourses ? '—' : completedLessons}</strong>
+              <span className="dashboard-stat-footnote">{t('Recorded in your account')}</span>
+            </article>
+            <article className="dashboard-stat-card">
+              <span className="dashboard-stat-icon purple" aria-hidden="true">◎</span>
+              <span className="dashboard-stat-label">{t('Best assessment score')}</span>
+              <strong>{isLoadingCourses ? '—' : bestScore === null ? '—' : `${bestScore}%`}</strong>
+              <span className="dashboard-stat-footnote">{t('Your highest saved result')}</span>
+            </article>
+          </section>
+
+          <section className="dashboard-courses" id="dashboard-courses">
+            <div className="platform-section-heading">
+              <div><p className="platform-eyebrow">{t('PICK UP WHERE YOU LEFT OFF')}</p><h2>{t('My learning')}</h2></div>
+              <span>{courses.length} {t(courses.length === 1 ? 'active course' : 'active courses')}</span>
+            </div>
+            {error ? <p className="platform-error" role="alert">{t(error)}</p> : isLoadingCourses ? (
+              <div className="dashboard-loading" role="status">{t('Loading your saved learning progress…')}</div>
+            ) : courses.length === 0 ? (
+              <div className="dashboard-empty">
+                <span aria-hidden="true">✦</span>
+                <h3>{t('Your learning journey starts here')}</h3>
+                <p>{t('Choose a career path and your progress will appear here automatically.')}</p>
+                <a href="/">{t('Browse roadmaps →')}</a>
+              </div>
+            ) : (
+              <div className="dashboard-course-grid">
+                {courses.map((item) => {
+                  const roadmap = roadmaps.find((course) => course.id === item.course_id)
+                  if (!roadmap) return null
+                  const percent = Math.round(item.completed_lessons.length / roadmap.steps.length * 100)
+                  return (
+                    <a className="dashboard-course-card" href={`/courses/${roadmap.id}`} key={roadmap.id}>
+                      <span className={`roadmap-icon ${roadmap.color}`}>{roadmap.icon}</span>
+                      <span className="dashboard-course-title">{translate(roadmap.title, language)}</span>
+                      <span className="dashboard-progress-label">{percent}% {t('lessons complete · best test')} {item.best_score}%</span>
+                      <span className="dashboard-progress-track"><span style={{ width: `${percent}%` }} /></span>
+                      <span className="dashboard-continue">{t(item.certificate_unlocked ? 'View certificate →' : 'Continue learning →')}</span>
+                    </a>
+                  )
+                })}
+              </div>
+            )}
+          </section>
+        </div>
+      </div>
     </main>
   )
 }
@@ -278,6 +416,8 @@ function Assessment({ course, csrfToken, onSubmitted }) {
     }
   }
 
+  const rounds = [1, 2, 3].map((round) => questions.filter((question) => question.round === round))
+
   return (
     <section className="assessment-panel" id="final-assessment">
       <div className="assessment-intro">
@@ -291,19 +431,30 @@ function Assessment({ course, csrfToken, onSubmitted }) {
       </div>
       {loading ? <p className="course-loading">{t('Preparing your assessment…')}</p> : error && !result ? <p className="platform-error" role="alert">{t(error)}</p> : (
         <form className="assessment-form" onSubmit={submit}>
-          {questions.map((question, index) => (
-            <fieldset className="assessment-question" key={question.id}>
-              <legend><span>{String(index + 1).padStart(2, '0')}</span>{t(question.question)}</legend>
-              <p className="assessment-topic">TOPIC · {t(question.topic)}</p>
-              <div className="assessment-options">
-                {question.options.map((option, choice) => (
-                  <label className={answers[question.id] === choice ? 'assessment-option selected' : 'assessment-option'} key={option}>
-                    <input type="radio" name={question.id} checked={answers[question.id] === choice} onChange={() => setAnswers((current) => ({ ...current, [question.id]: choice }))} />
-                    <span>{t(option)}</span>
-                  </label>
-                ))}
+          {rounds.map((roundQuestions, roundIndex) => (
+            <div className="assessment-round" key={`round-${roundIndex + 1}`}>
+              <div className="assessment-round-header">
+                <h3>{t('Round')} {roundIndex + 1}</h3>
+                <span>{roundQuestions.length} {t('questions')}</span>
               </div>
-            </fieldset>
+              {roundQuestions.map((question, questionIndex) => {
+                const globalIndex = roundIndex * 10 + questionIndex + 1
+                return (
+                  <fieldset className="assessment-question" key={question.id}>
+                    <legend><span>{String(globalIndex).padStart(2, '0')}</span>{t(question.question)}</legend>
+                    <p className="assessment-topic">TOPIC · {t(question.topic)}</p>
+                    <div className="assessment-options">
+                      {question.options.map((option, choice) => (
+                        <label className={answers[question.id] === choice ? 'assessment-option selected' : 'assessment-option'} key={option}>
+                          <input type="radio" name={question.id} checked={answers[question.id] === choice} onChange={() => setAnswers((current) => ({ ...current, [question.id]: choice }))} />
+                          <span>{t(option)}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </fieldset>
+                )
+              })}
+            </div>
           ))}
           {error && <p className="platform-error" role="alert">{t(error)}</p>}
           {!result && <button className="platform-primary assessment-submit" type="submit" disabled={submitting || Object.keys(answers).length !== questions.length}>
@@ -569,6 +720,7 @@ function LoadingPage({ message = 'Checking your secure session…' }) {
 
 function PlatformApp({ path }) {
   if (path === '/login' || path === '/signup') return <AuthPage mode={path.slice(1)} />
+  if (path === '/forgot-password') return <ForgotPasswordPage />
   if (path === '/dashboard') return <DashboardPage />
   if (path.startsWith('/courses/')) {
     const course = roadmaps.find((item) => item.id === path.slice('/courses/'.length))

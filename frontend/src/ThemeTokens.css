@@ -1,0 +1,817 @@
+:root,
+:root[data-theme="light"] {
+  color-scheme: light;
+  --theme-bg: #ffffff;
+  --theme-card: #F5F6F8;
+  --theme-input: #ffffff;
+  --theme-red: #E62429;
+  --theme-text: #171717;
+  --theme-secondary: #606775;
+  --theme-border: #D9DDE4;
+  --theme-neural-line: rgba(230, 36, 41, 0.18);
+  --theme-neural-node: rgba(230, 36, 41, 0.46);
+  --theme-neural-opacity: 0.68;
+  --theme-shadow: 0 12px 32px rgba(8, 8, 8, 0.075);
+  --ink: var(--theme-text);
+  --muted: var(--theme-secondary);
+  --accent: var(--theme-red);
+  --accent-cyan: var(--theme-red);
+  --border: var(--theme-border);
+  --surface: var(--theme-bg);
+  --surface-muted: var(--theme-card);
+  --jp-bg: var(--theme-bg);
+  --jp-surface: var(--theme-card);
+  --jp-surface-solid: var(--theme-input);
+  --jp-surface-raised: var(--theme-card);
+  --jp-border: var(--theme-border);
+  --jp-ink: var(--theme-text);
+  --jp-muted: var(--theme-secondary);
+  --jp-accent: var(--theme-red);
+  --jp-accent-bright: var(--theme-red);
+  --jp-good: var(--theme-text);
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --theme-bg: #080B12;
+  --theme-card: #151B27;
+  --theme-input: #101621;
+  --theme-red: #E62429;
+  --theme-text: #FFFFFF;
+  --theme-secondary: #B8C1D1;
+  --theme-border: #303948;
+  --theme-neural-line: rgba(230, 36, 41, 0.44);
+  --theme-neural-node: rgba(255, 255, 255, 0.72);
+  --theme-neural-opacity: 0.66;
+  --theme-shadow: 0 18px 48px rgba(0, 0, 0, 0.26);
+}
+
+:root[data-theme="comfort"] {
+  color-scheme: light;
+  --theme-bg: #F3EBDD;
+  --theme-card: #EAE1D2;
+  --theme-input: #F7F1E7;
+  --theme-red: #B83232;
+  --theme-text: #332E29;
+  --theme-secondary: #665E55;
+  --theme-border: #D3C7B6;
+  --theme-neural-line: rgba(184, 50, 50, 0.2);
+  --theme-neural-node: rgba(102, 94, 85, 0.62);
+  --theme-neural-opacity: 0.5;
+  --theme-shadow: 0 12px 30px rgba(64, 48, 34, 0.08);
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+  background-color: var(--theme-bg);
+}
+
+html {
+  color-scheme: light;
+  scroll-behavior: smooth;
+}
+
+body {
+  color: var(--theme-text);
+  background-color: var(--theme-bg);
+  background-image: none;
+  transition: background-color 200ms ease, color 200ms ease;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--theme-red) 24%, transparent);
+  color: var(--theme-text);
+}
+
+.experience-root {
+  position: relative;
+  min-height: 100vh;
+  isolation: isolate;
+  background: transparent;
+  color: var(--theme-text);
+}
+
+.route-surface {
+  position: relative;
+  z-index: 1;
+  color: var(--theme-text);
+}
+
+.app-shell,
+.platform-shell,
+.jobs-platform,
+.platform-header,
+.jp-header {
+  color: var(--theme-text);
+  background-color: transparent;
+}
+
+.jobs-platform {
+  --jp-bg: var(--theme-bg);
+  --jp-surface: var(--theme-card);
+  --jp-surface-solid: var(--theme-input);
+  --jp-surface-raised: var(--theme-card);
+  --jp-border: var(--theme-border);
+  --jp-ink: var(--theme-text);
+  --jp-muted: var(--theme-secondary);
+  --jp-accent: var(--theme-red);
+  --jp-accent-bright: var(--theme-red);
+  --jp-good: var(--theme-text);
+  --jp-shadow: var(--theme-shadow);
+  color: var(--theme-text);
+  background: var(--theme-bg);
+}
+
+.topbar,
+.platform-header,
+.jp-header {
+  border-color: var(--theme-border);
+  background: color-mix(in srgb, var(--theme-bg) 92%, transparent);
+  box-shadow: var(--theme-shadow);
+}
+
+.brand,
+.platform-brand,
+.jp-brand,
+.hero h1,
+.roadmap-intro h2,
+.ai-section-heading h2,
+.detail-heading h3,
+.lesson-header h3,
+.platform-section-heading h2,
+.auth-form-side h1,
+.dashboard-welcome h1,
+.course-hero-main h1,
+.forgot-card h1,
+.home-discovery-heading h3,
+.home-match-banner h3,
+.feature-card > strong,
+.how-card h3,
+.job-type-card h3 {
+  color: var(--theme-text);
+}
+
+.brand strong,
+.platform-brand strong,
+.jp-brand strong,
+.hero h1 span,
+.eyebrow,
+.platform-eyebrow,
+.jp-eyebrow,
+.home-discovery-heading > a,
+.section-link,
+.feature-link-label {
+  color: var(--theme-red);
+  -webkit-text-fill-color: var(--theme-red);
+}
+
+.top-nav a,
+.platform-nav a,
+.course-back-row a,
+.home-login,
+.jp-top-nav a {
+  color: var(--theme-secondary);
+}
+
+.top-nav a:hover,
+.platform-nav a:hover,
+.course-back-row a:hover,
+.jp-top-nav a:hover,
+.jp-top-nav a[aria-current="page"] {
+  color: var(--theme-red);
+}
+
+.roadmap-card,
+.roadmap-detail,
+.analysis-form,
+.result-panel,
+.lesson-view,
+.lesson-card,
+.course-main .lesson-tamil-tip,
+.playground,
+.assessment-panel,
+.assessment-question,
+.assessment-result,
+.ai-tutor-panel,
+.tutor-answer,
+.certificate-panel,
+.certificate-document,
+.course-sidebar,
+.course-hero,
+.auth-card,
+.forgot-card,
+.dashboard-course-card,
+.dashboard-empty,
+.dashboard-stat-card,
+.dashboard-sidebar,
+.dashboard-welcome,
+.how-card,
+.feature-card,
+.learning-showcase,
+.learning-chip,
+.job-type-card,
+.about-showcase,
+.home-discovery-panel,
+.home-match-banner,
+.jp-panel,
+.jp-fresher-panel,
+.jp-company-card,
+.jp-job-card,
+.jp-job-modal,
+.jp-alert-popup,
+.jp-admin-job,
+.jp-analytics-list > div,
+.jp-category-admin-list > div,
+.jp-admin-stats article,
+.career-assistant-panel {
+  border-color: var(--theme-border);
+  background: var(--theme-card);
+  color: var(--theme-text);
+  box-shadow: var(--theme-shadow);
+}
+
+.dashboard-welcome,
+.jp-fresher-panel,
+.about-showcase,
+.learning-showcase {
+  background: var(--theme-card);
+}
+
+.hero-proof-card,
+.home-featured-job-mark,
+.home-company-mark,
+.feature-icon,
+.job-type-icon,
+.course-hero-icon,
+.course-hero-icon.blue,
+.course-hero-icon.green,
+.course-hero-icon.orange,
+.dashboard-stat-icon,
+.dashboard-stat-icon.cyan,
+.dashboard-stat-icon.purple,
+.jp-company-logo {
+  border-color: var(--theme-border);
+  background: color-mix(in srgb, var(--theme-red) 8%, var(--theme-card));
+  color: var(--theme-red);
+}
+
+.feature-status,
+.coming-label,
+.home-featured-job,
+.home-company-row,
+.jp-job-facts span,
+.jp-match-detail,
+.jp-sidebar-note {
+  border-color: var(--theme-border);
+  background: var(--theme-card);
+  color: var(--theme-secondary);
+}
+
+.jp-sidebar {
+  border-color: var(--theme-border);
+  background: var(--theme-bg);
+}
+
+.jp-sidebar > a {
+  color: var(--theme-secondary);
+}
+
+.jp-sidebar > a:hover,
+.jp-sidebar > a.active {
+  border-color: var(--theme-border);
+  background: var(--theme-card);
+  color: var(--theme-text);
+}
+
+.jp-sidebar > a.active { box-shadow: inset 2px 0 var(--theme-red); }
+
+.dashboard-nav-link,
+.dashboard-nav-link > span,
+.dashboard-sidebar-label,
+.dashboard-stat-label,
+.dashboard-progress-label,
+.dashboard-stat-footnote,
+.home-discovery-loading,
+.home-discovery-message,
+.home-match-banner p:last-child,
+.how-card p,
+.feature-description,
+.job-type-card p,
+.jp-source-note,
+.jp-subtitle,
+.jp-job-description,
+.jp-job-title p,
+.jp-job-source,
+.jp-empty,
+.auth-subtitle,
+.auth-security,
+.assistant-welcome,
+.assistant-thinking,
+.assistant-disclaimer {
+  color: var(--theme-secondary);
+}
+
+.dashboard-nav-link:hover,
+.dashboard-nav-link.active,
+.course-sidebar-item:hover:not(:disabled),
+.course-sidebar-item.active {
+  border-color: var(--theme-border);
+  background: color-mix(in srgb, var(--theme-red) 9%, var(--theme-card));
+  color: var(--theme-text);
+}
+
+.dashboard-nav-link.active > span,
+.dashboard-sidebar-note > span,
+.dashboard-sidebar-note a,
+.dashboard-continue,
+.dashboard-empty a,
+.roadmap-card .card-progress {
+  color: var(--theme-red);
+}
+
+.dashboard-sidebar-note,
+.course-main .lesson-header,
+.course-main .lesson-card,
+.course-main .lesson-tamil-tip,
+.assessment-question,
+.assessment-result,
+.tutor-answer,
+.certificate-document,
+.dashboard-loading,
+.worked-example,
+.code-editor textarea,
+.jp-match-detail,
+.jp-admin-job,
+.jp-analytics-list > div,
+.jp-category-admin-list > div,
+.assistant-message.assistant {
+  border-color: var(--theme-border);
+  background: var(--theme-card);
+  color: var(--theme-text);
+}
+
+.dashboard-progress-track,
+.progress-track,
+.jp-admin-progress,
+.jp-match-score {
+  background: color-mix(in srgb, var(--theme-border) 52%, var(--theme-card));
+}
+
+.dashboard-progress-track > span,
+.milestone.complete .milestone-rail > span {
+  background: var(--theme-red);
+}
+
+.filter-chip,
+.roadmap-search,
+.path-count,
+.api-status,
+.language-selector,
+.sign-out-button,
+.jp-chip,
+.jp-secondary-button,
+.jp-sign-in,
+.jp-theme-toggle,
+.assistant-suggestions button,
+.assistant-form textarea,
+.auth-form input,
+.analysis-form input,
+.analysis-form textarea,
+.tutor-form input,
+.practice-answer textarea,
+.assessment-option,
+.check-option,
+.jobs-platform input,
+.jobs-platform select,
+.jobs-platform textarea,
+.theme-switcher-menu select {
+  border-color: var(--theme-border);
+  background: var(--theme-input);
+  color: var(--theme-text);
+}
+
+.roadmap-search input,
+.language-selector select,
+.auth-form input::placeholder,
+.analysis-form input::placeholder,
+.analysis-form textarea::placeholder,
+.assistant-form textarea::placeholder,
+.jobs-platform input::placeholder,
+.jobs-platform textarea::placeholder {
+  color: var(--theme-secondary);
+}
+
+.platform-primary,
+.home-signup,
+.hero-primary,
+.lesson-launch,
+.lesson-next,
+.preview-button,
+.tutor-form button,
+.certificate-print,
+.jp-primary-button,
+.assistant-launcher,
+.assistant-form button {
+  border-color: var(--theme-red);
+  background: var(--theme-red);
+  color: #ffffff;
+  box-shadow: 0 8px 20px color-mix(in srgb, var(--theme-red) 19%, transparent);
+}
+
+.platform-primary:hover:not(:disabled),
+.home-signup:hover,
+.hero-primary:hover,
+.lesson-launch:hover,
+.lesson-next:hover:not(:disabled),
+.preview-button:hover,
+.tutor-form button:hover:not(:disabled),
+.certificate-print:hover,
+.jp-primary-button:hover,
+.assistant-launcher:hover,
+.assistant-form button:hover:not(:disabled) {
+  border-color: var(--theme-text);
+  background: var(--theme-text);
+  color: var(--theme-bg);
+}
+
+.hero-secondary,
+.dashboard-explore,
+.jp-secondary-button,
+.jp-sign-in {
+  border-color: var(--theme-border);
+  background: var(--theme-card);
+  color: var(--theme-text);
+}
+
+.course-hero::after,
+.course-main .lesson-header::after,
+.dashboard-welcome::after {
+  border-color: color-mix(in srgb, var(--theme-red) 20%, transparent);
+  box-shadow: 0 0 0 18px color-mix(in srgb, var(--theme-red) 4%, transparent);
+}
+
+.progress-track,
+.dashboard-progress-track {
+  background: color-mix(in srgb, var(--theme-border) 52%, var(--theme-card));
+}
+
+.progress-ring {
+  background: conic-gradient(var(--theme-red) var(--progress), var(--theme-card) 0);
+}
+
+.milestone-rail > span {
+  border-color: var(--theme-border);
+  background: var(--theme-card);
+  color: var(--theme-secondary);
+}
+
+.milestone.complete .milestone-rail > span {
+  border-color: var(--theme-red);
+  background: var(--theme-red);
+  color: #ffffff;
+}
+
+.user-avatar,
+.tutor-avatar {
+  border: 1px solid var(--theme-border);
+  background: var(--theme-card);
+  color: var(--theme-red);
+}
+
+.message-card,
+.empty-state,
+.no-roadmaps,
+.connection-hint {
+  color: var(--theme-secondary);
+}
+
+.message-card h2,
+.empty-state h2,
+.message-card strong {
+  color: var(--theme-text);
+}
+
+.platform-error,
+.jp-feedback.error,
+.assistant-error {
+  border-color: color-mix(in srgb, var(--theme-red) 40%, var(--theme-border));
+  background: color-mix(in srgb, var(--theme-red) 9%, var(--theme-card));
+  color: var(--theme-red);
+}
+
+.jp-feedback.success {
+  border-color: var(--theme-border);
+  background: var(--theme-card);
+  color: var(--theme-text);
+}
+
+.jp-footer {
+  border-color: var(--theme-border);
+  background: var(--theme-bg);
+  color: var(--theme-secondary);
+}
+
+.jp-footer a,
+.site-footer nav a {
+  color: var(--theme-red);
+}
+
+.jp-modal-backdrop {
+  background: color-mix(in srgb, var(--theme-text) 58%, transparent);
+}
+
+.auth-illustration {
+  background: var(--theme-card);
+}
+
+.auth-orbit,
+.auth-illustration::before,
+.auth-illustration::after {
+  border-color: color-mix(in srgb, var(--theme-red) 26%, var(--theme-border));
+}
+
+.auth-orbit-core {
+  border-color: var(--theme-border);
+  background: linear-gradient(145deg, var(--theme-red), var(--theme-text));
+  color: #ffffff;
+}
+
+.auth-floating-note {
+  border-color: var(--theme-border);
+  background: var(--theme-input);
+  color: var(--theme-text);
+}
+
+.assistant-launcher-sigil,
+.assistant-mark {
+  border-color: color-mix(in srgb, var(--theme-red) 28%, var(--theme-border));
+  background: color-mix(in srgb, var(--theme-red) 8%, var(--theme-card));
+  color: var(--theme-red);
+}
+
+.career-assistant-header {
+  border-color: var(--theme-border);
+  background: var(--theme-card);
+  color: var(--theme-text);
+}
+
+.assistant-message {
+  border-color: var(--theme-border);
+  color: var(--theme-text);
+}
+
+.assistant-message.user,
+.assistant-suggestions button:hover {
+  border-color: color-mix(in srgb, var(--theme-red) 35%, var(--theme-border));
+  background: color-mix(in srgb, var(--theme-red) 9%, var(--theme-card));
+  color: var(--theme-text);
+}
+
+.assistant-form {
+  border-color: var(--theme-border);
+}
+
+.hero-neural-aura {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: grid;
+  width: min(230px, 72vw);
+  aspect-ratio: 1;
+  place-items: center;
+  border: 1px solid color-mix(in srgb, var(--theme-red) 18%, transparent);
+  border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--theme-red) 8%, transparent), transparent 68%);
+  color: var(--theme-red);
+  transform: translate(-50%, -50%);
+  animation: neural-aura-breathe 7s ease-in-out infinite;
+}
+
+.hero-neural-icon {
+  width: 68%;
+  height: 68%;
+  overflow: visible;
+  filter: drop-shadow(0 10px 24px color-mix(in srgb, var(--theme-red) 20%, transparent));
+  stroke-width: 1.1;
+}
+
+.neural-auth-network {
+  position: absolute;
+  inset: 12%;
+  width: 76%;
+  height: 76%;
+  fill: var(--theme-neural-node);
+  stroke: var(--theme-neural-line);
+  stroke-width: 1.1;
+  animation: neural-network-drift 12s ease-in-out infinite alternate;
+}
+
+.auth-neural-icon {
+  z-index: 1;
+  width: 110px;
+  height: 110px;
+  color: var(--theme-red);
+  filter: drop-shadow(0 12px 24px color-mix(in srgb, var(--theme-red) 20%, transparent));
+}
+
+.auth-tools {
+  position: absolute;
+  z-index: 3;
+  top: 21px;
+  right: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.jp-neural-sidecar {
+  display: grid;
+  width: 58px;
+  height: 58px;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 1px solid var(--theme-border);
+  border-radius: 16px;
+  background: var(--theme-card);
+  color: var(--theme-red);
+  filter: drop-shadow(0 7px 16px color-mix(in srgb, var(--theme-red) 12%, transparent));
+}
+
+.jp-nav-neural {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+  color: var(--theme-red);
+}
+
+.assistant-mark-hero {
+  width: 40px;
+  height: 40px;
+  flex: 0 0 auto;
+  color: var(--theme-red);
+}
+
+.assistant-mark-hero.is-thinking {
+  animation: neural-aura-breathe 1.4s ease-in-out infinite;
+}
+
+.assistant-mark-hero .neural-icon,
+.assistant-launcher-sigil .neural-icon {
+  width: 100%;
+  height: 100%;
+}
+
+.assistant-launcher-sigil {
+  display: grid;
+  width: 27px;
+  height: 27px;
+  margin-left: -6px;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.32);
+  border-radius: 9px;
+  color: #ffffff;
+}
+
+.theme-switcher {
+  position: relative;
+  z-index: 35;
+  flex: 0 0 auto;
+  color: var(--theme-text);
+  font-size: 11px;
+}
+
+.theme-switcher > summary {
+  display: inline-flex;
+  min-height: 36px;
+  align-items: center;
+  gap: 7px;
+  padding: 0 10px;
+  border: 1px solid var(--theme-border);
+  border-radius: 10px;
+  background: var(--theme-card);
+  color: var(--theme-text);
+  cursor: pointer;
+  font-weight: 650;
+  list-style: none;
+  user-select: none;
+}
+
+.theme-switcher > summary::-webkit-details-marker { display: none; }
+.theme-switcher-icon { width: 20px; height: 20px; color: var(--theme-red); }
+
+.theme-switcher-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  display: grid;
+  width: min(250px, calc(100vw - 28px));
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid var(--theme-border);
+  border-radius: 13px;
+  background: var(--theme-card);
+  box-shadow: var(--theme-shadow);
+}
+
+.theme-switcher-menu label {
+  display: grid;
+  gap: 6px;
+  color: var(--theme-secondary);
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.theme-switcher-menu select {
+  min-height: 38px;
+  padding: 0 9px;
+  border: 1px solid var(--theme-border);
+  border-radius: 8px;
+  font: inherit;
+}
+
+.jp-display-settings {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px;
+  border: 1px solid var(--theme-border);
+  border-radius: 12px;
+  background: var(--theme-card);
+}
+
+.jp-display-settings h2 {
+  margin: 0 0 4px;
+  color: var(--theme-text);
+  font-size: 13px;
+}
+
+.jp-display-settings p {
+  margin: 0;
+  color: var(--theme-secondary);
+  font-size: 10px;
+}
+
+.assistant-message { animation: neural-message-enter 200ms ease-out both; }
+.assistant-thinking::after {
+  display: inline-block;
+  width: 1.4em;
+  overflow: hidden;
+  vertical-align: bottom;
+  content: '...';
+  animation: assistant-dots 1.1s steps(4, end) infinite;
+}
+
+@keyframes neural-message-enter {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes assistant-dots {
+  from { width: 0; }
+  to { width: 1.4em; }
+}
+
+@keyframes neural-aura-breathe {
+  0%, 100% { opacity: 0.72; transform: translate(-50%, -50%) scale(0.98); }
+  50% { opacity: 1; transform: translate(-50%, -50%) scale(1.025); }
+}
+
+:root .assistant-mark-hero.is-thinking {
+  animation-name: neural-loader-pulse;
+}
+
+:root[data-theme="comfort"] {
+  --theme-neural-opacity: 0.42;
+}
+
+:root[data-theme="comfort"] .neural-background {
+  filter: sepia(0.12);
+}
+
+@media (max-width: 760px) {
+  .theme-switcher > summary { min-height: 34px; padding: 0 8px; }
+  .jp-display-settings { align-items: flex-start; flex-direction: column; }
+}
+
+@media (max-width: 560px) {
+  .auth-tools {
+    top: 16px;
+    gap: 5px;
+  }
+  .auth-tools .theme-switcher > summary { min-height: 32px; padding: 0 7px; }
+  .auth-neural-icon { width: 92px; height: 92px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

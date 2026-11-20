@@ -1,0 +1,124 @@
+.neural-icon {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.65;
+}
+
+.neural-icon path:first-child,
+.neural-icon path:nth-child(2) {
+  fill: rgba(230, 36, 41, 0.1);
+}
+
+.neural-icon path:nth-child(3) { stroke-width: 1.35; }
+.neural-icon circle { fill: currentColor; stroke: none; }
+
+.neural-loader {
+  display: grid;
+  min-height: 100px;
+  justify-items: center;
+  gap: 9px;
+  padding: 18px;
+  color: var(--theme-secondary);
+  font-size: 11px;
+  text-align: center;
+}
+
+.neural-loader-icon {
+  width: 36px;
+  height: 36px;
+  color: var(--theme-red);
+  animation: neural-loader-pulse 1.8s ease-in-out infinite;
+}
+
+.neural-loader-track {
+  position: relative;
+  display: block;
+  width: min(220px, 70%);
+  height: 3px;
+  overflow: hidden;
+  border-radius: 99px;
+  background: var(--theme-border);
+}
+
+.neural-loader-track i {
+  position: absolute;
+  inset: 0 auto 0 -35%;
+  width: 35%;
+  border-radius: inherit;
+  background: var(--theme-red);
+  animation: neural-loader-progress 1.2s ease-in-out infinite;
+}
+
+.neural-transition {
+  position: fixed;
+  z-index: 100;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background: color-mix(in srgb, var(--theme-bg) 22%, transparent);
+}
+
+.neural-transition-network {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke: var(--theme-red);
+  stroke-width: 1.5;
+  filter: drop-shadow(0 0 5px color-mix(in srgb, var(--theme-red) 40%, transparent));
+}
+
+.neural-transition-pulse {
+  position: absolute;
+  top: 26%;
+  left: 0;
+  width: 70px;
+  height: 70px;
+  padding: 13px;
+  border: 1px solid var(--theme-border);
+  border-radius: 50%;
+  background: var(--theme-card);
+  box-shadow: 0 0 28px color-mix(in srgb, var(--theme-red) 24%, transparent);
+  color: var(--theme-red);
+}
+
+.neural-click-effect {
+  position: fixed;
+  z-index: 120;
+  display: grid;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  border: 1px solid color-mix(in srgb, var(--theme-red) 44%, transparent);
+  border-radius: 50%;
+  color: var(--theme-red);
+  pointer-events: none;
+  translate: -50% -50%;
+}
+
+.neural-click-effect .neural-icon { width: 22px; height: 22px; }
+
+@keyframes neural-loader-pulse {
+  0%, 100% { opacity: 0.62; transform: scale(0.94); }
+  50% { opacity: 1; transform: scale(1.04); }
+}
+
+@keyframes neural-loader-progress {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(390%); }
+}
+
+@media (max-width: 640px) {
+  .neural-transition-pulse { width: 54px; height: 54px; padding: 10px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .neural-loader-icon,
+  .neural-loader-track i { animation: none; }
+}
